@@ -1,0 +1,15 @@
+{
+  "dataset_name": "AEVORUN Temporal Code Corpus",
+  "version": "1.0.0",
+  "split_counts": {
+    "train": 338,
+    "val": 116,
+    "test": 49,
+    "total": 503
+  },
+  "checksums": {
+    "train": "86c0fbb7ce00587cfc601aa7cdfd9ec5febc478d82128a7ed9a4e3b212f613a5",
+    "val": "414e43a45a1e32c384acd89e2d132988e01814a353ea951e08aa9ac40c24a669",
+    "test": "c7d88fdfe83c7c40c6d6c34106a6b997a3f5cb7d708fd79e5bfaa74595c71581"
+  }
+}

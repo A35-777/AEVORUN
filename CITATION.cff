@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use AEVORUN or the AEVORUN-T1 model in your research, please cite it as below."
+title: "AEVORUN: Learned Temporal Test-Scenario Prioritization"
+version: 0.1.0
+date-released: 2026-11-22
+authors:
+  - name: "AEVORUN Research Team"
+keywords:
+  - "software testing"
+  - "machine learning for software engineering"
+  - "temporal edge cases"
+  - "test case prioritization"
+  - "python AST"
+repository-code: "https://github.com/aevorun/aevorun"
+license: "MIT"
+
