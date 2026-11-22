@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation &amp; Quickstart — AEVORUN</title>
+  <meta name="description" content="Guide to installing and integrating AEVORUN in Python projects and CI workflows.">
+  <link rel="canonical" href="https://aevorun.pages.dev/docs.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="favicon.svg" alt="AEVORUN Logo">
+        <span>AEVORUN</span>
+        <span class="brand-badge">Docs</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="docs.html" class="active">Docs</a>
+        <a href="about.html">About</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn-github">GitHub ↗</a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <div class="section-tag">Integration Guide</div>
+        <h1 class="page-title">Getting Started with AEVORUN</h1>
+        <p class="page-subtitle">
+          Learn how to analyze Python source code from the command line, integrate with your pytest test runner, or run the Python SDK.
+        </p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+
+        <!-- Installation -->
+        <div style="margin-bottom: 3.5rem;">
+          <h2 style="margin-bottom: 1rem;">1. Installation</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">
+            AEVORUN requires Python 3.10+ and standard PyTorch (CPU-only is fully sufficient).
+          </p>
+          <pre class="code-block"><code># Install via pip
+pip install aevorun
+
+# Or clone from GitHub for local development
+git clone https://github.com/A35-777/AEVORUN.git
+cd AEVORUN
+pip install -e .</code></pre>
+        </div>
+
+        <!-- CLI Usage -->
+        <div style="margin-bottom: 3.5rem;">
+          <h2 style="margin-bottom: 1rem;">2. Command-Line Interface (CLI)</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">
+            Run the <code>aevorun</code> CLI on any Python file or directory:
+          </p>
+          <pre class="code-block"><code># Analyze a single file
+aevorun analyze src/services/billing.py
+
+# Format output as JSON for CI pipeline ingestion
+aevorun analyze src/services/billing.py --format json
+
+# Filter recommendations by confidence threshold
+aevorun analyze src/services/billing.py --threshold 0.75
+
+# Display model and checkpoint metadata
+aevorun info</code></pre>
+        </div>
+
+        <!-- Python SDK -->
+        <div style="margin-bottom: 3.5rem;">
+          <h2 style="margin-bottom: 1rem;">3. Python SDK Usage</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">
+            Directly invoke the AEVORUN-T1 engine programmatically in your testing harnesses:
+          </p>
+          <pre class="code-block"><code>from aevorun import Aevorun
+
+# Initialize engine (loads default AEVORUN-T1 checkpoint)
+engine = Aevorun()
+
+source_code = """
+from datetime import datetime, timedelta
+
+def get_next_run(last_run: datetime) -> datetime:
+    return last_run + timedelta(days=30)
+"""
+
+# Analyze function AST
+results = engine.analyze_source(source_code)
+
+for func_name, analysis in results.items():
+    print(f"Function: {func_name}")
+    print(f"Is Temporal: {analysis.is_temporal}")
+    for rank, scenario in enumerate(analysis.scenarios, 1):
+        print(f"  #{rank}: {scenario.name} (confidence: {scenario.score:.2f})")
+        print(f"     Clue: {scenario.evidence}")</code></pre>
+        </div>
+
+        <!-- Pytest Integration Pattern -->
+        <div style="margin-bottom: 3.5rem;">
+          <h2 style="margin-bottom: 1rem;">4. Pytest Test-Prioritization Pattern</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">
+            Use AEVORUN to dynamically verify that critical temporal edge cases are covered by your test suite:
+          </p>
+          <pre class="code-block"><code>import pytest
+from aevorun import Aevorun
+import my_module
+
+def test_temporal_coverage():
+    engine = Aevorun()
+    analysis = engine.analyze_file("src/my_module.py")
+    
+    # Assert that all critical temporal functions have matching test scenarios
+    for func, res in analysis.items():
+        if res.is_temporal:
+            top_scenario = res.scenarios[0].id
+            print(f"Warning: Ensure tests probe {top_scenario} for {func}")</code></pre>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; 2026 AEVORUN Research. Open-source under Apache License 2.0.</span>
+        <span><a href="https://aevorun.pages.dev" style="color: var(--accent);">aevorun.pages.dev</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

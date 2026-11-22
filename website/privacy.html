@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — AEVORUN</title>
+  <meta name="description" content="Local-first offline privacy policy for AEVORUN and AEVORUN-T1.">
+  <link rel="canonical" href="https://aevorun.pages.dev/privacy.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="favicon.svg" alt="AEVORUN Logo">
+        <span>AEVORUN</span>
+        <span class="brand-badge">Privacy</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="docs.html">Docs</a>
+        <a href="about.html">About</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn-github">GitHub ↗</a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <div class="section-tag">Zero Telemetry</div>
+        <h1 class="page-title">Local-First Privacy Policy</h1>
+        <p class="page-subtitle">
+          Your source code never leaves your computer. AEVORUN is built from the ground up for strict privacy and complete offline execution.
+        </p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container" style="max-width: 800px;">
+        <div class="card" style="margin-bottom: 2rem;">
+          <h3>1. 100% Offline Execution</h3>
+          <p>
+            The AEVORUN CLI and Python SDK execute exclusively on your local CPU. When you run <code>aevorun analyze</code>, no network connections are made, no packets are transmitted, and no code snippets are sent to external servers or cloud AI APIs.
+          </p>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+          <h3>2. Zero Telemetry or Analytics</h3>
+          <p>
+            AEVORUN contains no telemetry SDKs, no usage trackers, and no background crash reporting pings. We do not collect your IP address, environment details, or codebase metadata.
+          </p>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+          <h3>3. Static Site Privacy</h3>
+          <p>
+            The documentation site hosted on Cloudflare Pages is a static client-side web application. The interactive code analyzer executes directly in your web browser's JavaScript runtime; no code pasted into the demo is stored or transmitted.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; 2026 AEVORUN Research. Open-source under Apache License 2.0.</span>
+        <span><a href="https://aevorun.pages.dev" style="color: var(--accent);">aevorun.pages.dev</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

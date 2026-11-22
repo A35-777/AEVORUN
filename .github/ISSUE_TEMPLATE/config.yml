@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Interactive AST Playground
+    url: https://aevorun.pages.dev/#playground
+    about: Test Python functions interactively directly in your browser.
+  - name: Research & Benchmarks
+    url: https://aevorun.pages.dev/#benchmarks
+    about: Read full empirical benchmark comparisons and taxonomy specifications.

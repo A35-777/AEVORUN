@@ -1,0 +1,15 @@
+# AEVORUN
+> Learned Temporal Test-Scenario Prioritization (Model: AEVORUN-T1)
+
+Find the time-related tests your code is most likely to need.
+
+- Website: https://aevorun.pages.dev
+- Repository: https://github.com/A35-777/AEVORUN
+- Model: AEVORUN-T1 (Deep Residual MLP, 53,711 parameters, 0.07 ms CPU inference)
+- License: Apache-2.0
+
+## Capabilities
+1. Extracts 82 structural AST features without invoking remote LLMs.
+2. Predicts calibrated scenario relevance across 14 canonical temporal edge cases.
+3. Ranks tests with 93.7% Recall@3 and 0.8760 Macro-F1 on held-out repositories.
+4. Generates zero false positives (0.0% FPR) on non-temporal mathematical functions.

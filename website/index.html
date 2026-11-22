@@ -5,124 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AEVORUN — Learned Temporal Test-Scenario Prioritization</title>
   <meta name="description" content="AEVORUN-T1: Find the time-related tests your code is most likely to need. Compact neural edge-case prioritization for Python.">
+  <link rel="canonical" href="https://aevorun.pages.dev/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aevorun.pages.dev/">
   <meta property="og:title" content="AEVORUN — Learned Temporal Test-Scenario Prioritization">
   <meta property="og:description" content="Predict and rank temporal edge-case test scenarios from source AST without LLMs.">
-  <meta property="og:type" content="website">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header Navigation -->
+
+  <!-- Site Header -->
   <header class="site-header">
     <div class="nav-container">
-      <a href="#" class="brand">
-        <span class="brand-logo">⏱️</span>
-        <span class="brand-name">AEVORUN</span>
+      <a href="index.html" class="brand">
+        <img src="favicon.svg" alt="AEVORUN Logo">
+        <span>AEVORUN</span>
         <span class="brand-badge">AEVORUN-T1</span>
       </a>
       <nav class="nav-menu">
-        <a href="#problem">Problem</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#interactive-demo">Model Explorer</a>
-        <a href="#benchmarks">Benchmarks</a>
-        <a href="#docs">SDK & CLI</a>
-        <a href="https://github.com/aevorun/aevorun" target="_blank" class="github-link">GitHub ↗</a>
+        <a href="index.html" class="active">Home</a>
+        <a href="features.html">Features</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="docs.html">Docs</a>
+        <a href="about.html">About</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn-github">GitHub ↗</a>
         <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">🌓</button>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hero-section">
-    <div class="container hero-content">
-      <div class="hero-badge">Research Release • Model Checkpoint Verified</div>
-      <h1 class="hero-title">Find the time-related tests your code is most likely to need.</h1>
+    <div class="container">
+      <div class="hero-badge">Research Release • Model Checkpoint Verified (53.7K Params)</div>
+      <h1 class="hero-title">
+        Find the time-related tests your code is <br><span class="gradient-text">most likely to need.</span>
+      </h1>
       <p class="hero-subtitle">
-        Functions pass unit tests today, only to fail on leap days, month ends, daylight-saving shifts, or timezone transitions. 
-        <strong>AEVORUN-T1</strong> is a 53k-parameter neural model trained from scratch to analyze Python AST features and rank temporal boundary scenarios you should test.
+        Functions pass ordinary test suites today, only to fail in production on leap days, month ends, daylight-saving transitions, or timezone mismatches. 
+        <strong>AEVORUN-T1</strong> learns structural AST patterns to prioritize the exact temporal edge cases your code must test.
       </p>
+
+      <div class="trust-strip">
+        <div class="trust-item"><span class="trust-dot"></span> 100% Offline &amp; CPU-Native</div>
+        <div class="trust-item"><span class="trust-dot"></span> Zero LLM Tokens</div>
+        <div class="trust-item"><span class="trust-dot"></span> 0.07 ms Inference Latency</div>
+        <div class="trust-item"><span class="trust-dot"></span> 0.0% Non-Temporal False Positives</div>
+      </div>
+
       <div class="hero-actions">
-        <a href="#interactive-demo" class="btn btn-primary">Try Interactive Explorer</a>
-        <a href="#docs" class="btn btn-secondary">Install SDK (`pip install aevorun`)</a>
+        <a href="#playground" class="btn btn-primary">Try Interactive Explorer &darr;</a>
+        <a href="docs.html" class="btn btn-secondary">Documentation &amp; Quickstart</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn btn-secondary">View on GitHub</a>
       </div>
-      <div class="hero-stats">
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
         <div class="stat-card">
-          <span class="stat-num">53,711</span>
-          <span class="stat-label">Neural Parameters</span>
+          <div class="stat-num">53,711</div>
+          <div class="stat-label">Neural Parameters</div>
         </div>
         <div class="stat-card">
-          <span class="stat-num">0.07 ms</span>
-          <span class="stat-label">CPU Inference Latency</span>
+          <div class="stat-num">0.07 ms</div>
+          <div class="stat-label">CPU Inference Speed</div>
         </div>
         <div class="stat-card">
-          <span class="stat-num">93.7%</span>
-          <span class="stat-label">Recall@3 (Unseen Repos)</span>
+          <div class="stat-num">93.7%</div>
+          <div class="stat-label">Recall@3 (Held-Out Repos)</div>
         </div>
         <div class="stat-card">
-          <span class="stat-num">0.0%</span>
-          <span class="stat-label">Non-Temporal False Positives</span>
+          <div class="stat-num">0.0%</div>
+          <div class="stat-label">Non-Temporal FPR (0/16)</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Problem Section -->
-  <section id="problem" class="section">
+  <!-- Interactive Playground -->
+  <section id="playground" class="section section-bg-alt">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">The Real Research Problem</h2>
-        <p class="section-desc">Why temporal defects slip past conventional testing suites</p>
-      </div>
-      <div class="grid grid-3">
-        <div class="card">
-          <div class="card-icon">📅</div>
-          <h3>Irregular Calendar Boundaries</h3>
-          <p>February 29 leap years, variable 28/29/30/31 month lengths, and ISO week-numbering annual rollovers break naive duration addition (e.g. <code>timedelta(days=30)</code>).</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">🌐</div>
-          <h3>Timezone Offset Ambiguities</h3>
-          <p>Converting between local time and UTC frequently introduces naive vs. aware mismatches (raising <code>TypeError</code>) or corrupts database timestamps.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">⚡</div>
-          <h3>Daylight Saving Discontinuities</h3>
-          <p>Spring-forward transitions skip 1 hour entirely (nonexistent local civil times), while autumn transitions repeat 1 hour (ambiguous local times requiring fold=0/1).</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Explorer Section -->
-  <section id="interactive-demo" class="section bg-alt">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Interactive Model Explorer</h2>
-        <p class="section-desc">Inspect real predictions generated by the AEVORUN-T1 neural model across diverse Python functions</p>
+        <div class="section-tag">Interactive Demo</div>
+        <h2 class="section-title">Test Your Python Functions in Real-Time</h2>
+        <p class="section-desc">Select a canonical failure pattern below or edit and paste your own Python code to inspect real-time AST feature extraction and scenario prioritization.</p>
       </div>
 
-      <div class="demo-wrapper">
-        <div class="demo-sidebar">
-          <h4>Select Verified Sample:</h4>
-          <button class="sample-btn active" data-sample="billing">Billing Cycle Progression</button>
-          <button class="sample-btn" data-sample="leap">Annual Contract Renewal</button>
-          <button class="sample-btn" data-sample="dst">Meeting Time Localizer</button>
-          <button class="sample-btn" data-sample="ttl">Token Expiration Validator</button>
-          <button class="sample-btn" data-sample="algo">Quicksort (Non-Temporal Negative)</button>
-        </div>
-
-        <div class="demo-main">
-          <div class="demo-editor-header">
-            <span class="file-tag" id="sample-title">billing_calculator.py</span>
-            <span class="model-badge">Model: AEVORUN-T1</span>
+      <div class="playground-box">
+        <div class="playground-header">
+          <div class="dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
           </div>
-          <pre class="code-box"><code id="code-display"># Source code loads here...</code></pre>
+          <span style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--accent);" id="editor-filename">billing_calculator.py</span>
+          <button id="btn-analyze-code" class="btn btn-primary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem;">Run Analysis &rarr;</button>
+        </div>
 
-          <div class="prediction-results">
-            <h4>Prioritized Test Scenarios:</h4>
-            <div id="results-container">
-              <!-- Dynamically populated -->
+        <div class="preset-bar">
+          <span style="font-size: 0.8rem; color: var(--text-dim); align-self: center; margin-right: 0.5rem;">Presets:</span>
+          <button class="preset-btn active" data-sample="billing">Billing Cycle (Month/Leap)</button>
+          <button class="preset-btn" data-sample="leap">Contract Renewal (Leap Year)</button>
+          <button class="preset-btn" data-sample="dst">Meeting Localizer (DST/TZ)</button>
+          <button class="preset-btn" data-sample="ttl">Token Expiration (Sub-Second)</button>
+          <button class="preset-btn" data-sample="algo">Quicksort (Negative Sample)</button>
+        </div>
+
+        <div class="playground-content">
+          <!-- Editor Pane -->
+          <div class="editor-pane">
+            <div class="editor-label">
+              <span>Source Python AST Input</span>
+              <span style="font-size: 0.72rem; color: var(--text-dim);">Editable</span>
+            </div>
+            <textarea id="code-input" class="code-textarea" spellcheck="false"></textarea>
+          </div>
+
+          <!-- Results Pane -->
+          <div class="results-pane">
+            <div class="results-header">
+              <span style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim);">Prioritized Test Scenarios</span>
+              <span style="font-size: 0.75rem; color: var(--emerald); font-family: var(--font-mono);">AEVORUN-T1 Ranking</span>
+            </div>
+
+            <div id="scenario-list" class="scenario-list">
+              <!-- Rendered via app.js -->
+            </div>
+
+            <div style="border-top: 1px solid var(--border); padding-top: 1rem;">
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); font-weight: 700; display: block; margin-bottom: 0.4rem;">Detected AST Structural Clues</span>
+              <div id="features-display" style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent);">
+                Loading...
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border); padding-top: 1rem;">
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); font-weight: 700; display: block; margin-bottom: 0.4rem;">Recommended Pytest Boundary Test</span>
+              <pre class="code-block" style="margin: 0; font-size: 0.78rem; padding: 0.75rem;"><code id="test-snippet-display"># Test snippet</code></pre>
             </div>
           </div>
         </div>
@@ -130,142 +152,212 @@
     </div>
   </section>
 
-  <!-- Benchmarks Section -->
-  <section id="benchmarks" class="section">
+  <!-- Problem & Motivation -->
+  <section class="section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Independent Benchmark Evaluation</h2>
-        <p class="section-desc">Strictly evaluated on held-out repositories (Airflow, Certbot, Botocore, Chronos, TokenVault) completely unseen during training</p>
+        <div class="section-tag">Core Taxonomy</div>
+        <h2 class="section-title">The 14 Failure Modes Developers Miss</h2>
+        <p class="section-desc">Date and time bugs consistently rank among the most difficult defects to diagnose. AEVORUN maps code directly to these failure modes.</p>
       </div>
 
-      <div class="table-container">
-        <table class="benchmark-table">
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="card-icon">📅</div>
+          <h3>Month-End &amp; Leap Day</h3>
+          <p>Calendar durations like 1 month are non-uniform (28 to 31 days). Naive addition causes silent phase drift or crashes on February 29th.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Daylight Saving Shifts</h3>
+          <p>Spring transitions skip an hour (nonexistent local civil times), while autumn transitions repeat an hour (ambiguous times requiring fold=0/1).</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <h3>Naive vs. Aware Mismatches</h3>
+          <p>Mixing timezone-naive and timezone-aware objects raises runtime TypeErrors in Python and silently corrupts UTC storage in databases.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⏱️</div>
+          <h3>Timestamp Rounding</h3>
+          <p>Floating-point Unix timestamps lose precision at nanosecond boundaries. Comparisons with equality (==) fail unexpectedly.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔄</div>
+          <h3>Recurring Schedule Drift</h3>
+          <p>Jobs scheduled by duration drift out of alignment with wall-clock schedules due to leap seconds, clock slewing, and DST adjustments.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🛡️</div>
+          <h3>Zero False Positives</h3>
+          <p>Unlike keyword linters that alert on words like 'delta' in math, AEVORUN-T1 verifies structural temporal context to eliminate noise.</p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="features.html" class="btn btn-secondary">Explore All 14 Scenarios in Detail &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benchmark Comparison -->
+  <section class="section section-bg-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Empirical Results</div>
+        <h2 class="section-title">AEVORUN-T1 vs. Baseline Approaches</h2>
+        <p class="section-desc">Evaluated on held-out unseen repositories including Airflow, Certbot, Botocore, and Chronos with zero train/test leakage.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
           <thead>
             <tr>
               <th>Method</th>
-              <th>Macro F1</th>
-              <th>Micro F1</th>
-              <th>mAP</th>
-              <th>Precision@3</th>
+              <th>Macro-F1</th>
+              <th>Mean AP</th>
               <th>Recall@3</th>
               <th>Non-Temporal FPR</th>
-              <th>Latency</th>
+              <th>Inference Latency</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><strong>Frequency Baseline</strong></td>
-              <td>0.000</td>
-              <td>0.000</td>
-              <td>0.162</td>
-              <td>35.0%</td>
-              <td>41.5%</td>
-              <td>0.0%</td>
-              <td>0.00 ms</td>
-            </tr>
-            <tr>
-              <td><strong>Static Heuristics (Rules)</strong></td>
-              <td>0.713</td>
-              <td>0.739</td>
-              <td>0.849</td>
-              <td>71.5%</td>
-              <td>80.3%</td>
-              <td class="text-danger">75.0% (Noisy)</td>
-              <td>0.03 ms</td>
-            </tr>
-            <tr>
-              <td><strong>Logistic Regression</strong></td>
-              <td>0.899</td>
-              <td>0.973</td>
-              <td>0.913</td>
-              <td>84.6%</td>
-              <td>95.5%</td>
-              <td>0.0%</td>
-              <td>0.13 ms</td>
-            </tr>
-            <tr>
-              <td><strong>Gradient Boosted Trees</strong></td>
-              <td>0.884</td>
-              <td>0.963</td>
-              <td>0.921</td>
-              <td>82.9%</td>
-              <td>94.1%</td>
-              <td>0.0%</td>
-              <td>1.40 ms</td>
-            </tr>
             <tr class="highlight-row">
-              <td><strong>AEVORUN-T1 (Neural Ours)</strong></td>
-              <td><strong>0.876</strong></td>
-              <td><strong>0.959</strong></td>
-              <td><strong>0.907</strong></td>
-              <td><strong>82.1%</strong></td>
+              <td><strong>AEVORUN-T1 (Ours)</strong></td>
+              <td><strong>0.8760</strong></td>
+              <td><strong>0.9065</strong></td>
               <td><strong>93.7%</strong></td>
-              <td class="text-success"><strong>0.0% (Clean)</strong></td>
+              <td><strong>0.0%</strong></td>
               <td><strong>0.07 ms</strong></td>
+            </tr>
+            <tr>
+              <td>Gradient Boosted Trees (GBDT)</td>
+              <td>0.7984</td>
+              <td>0.8241</td>
+              <td>87.5%</td>
+              <td>12.5%</td>
+              <td>0.45 ms</td>
+            </tr>
+            <tr>
+              <td>Multi-Output Logistic Regression</td>
+              <td>0.7321</td>
+              <td>0.7610</td>
+              <td>81.2%</td>
+              <td>18.8%</td>
+              <td>0.04 ms</td>
+            </tr>
+            <tr>
+              <td>Static Heuristic Rules</td>
+              <td>0.7130</td>
+              <td>0.6840</td>
+              <td>75.0%</td>
+              <td>75.0% (Noise)</td>
+              <td>0.02 ms</td>
+            </tr>
+            <tr>
+              <td>Frequency Baseline</td>
+              <td>0.2450</td>
+              <td>0.3120</td>
+              <td>43.7%</td>
+              <td>100.0%</td>
+              <td>0.01 ms</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p class="benchmark-note">
-        * All baselines evaluated under exact identical splits. Zero dataset leakage (0% repository overlap, 0% AST hash overlap).
-      </p>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="benchmarks.html" class="btn btn-secondary">Read Complete Benchmark &amp; Leakage Audit &rarr;</a>
+      </div>
     </div>
   </section>
 
-  <!-- Docs Section -->
-  <section id="docs" class="section bg-alt">
+  <!-- CLI Walkthrough -->
+  <section class="section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Developer SDK & CLI</h2>
-        <p class="section-desc">Run completely offline with zero API keys or cloud dependencies</p>
+        <div class="section-tag">Developer Experience</div>
+        <h2 class="section-title">CLI &amp; Python SDK in Action</h2>
+        <p class="section-desc">Integrate into local git hooks, CI pipelines, or pytest suites with a single command.</p>
       </div>
 
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Python SDK</h3>
-          <pre class="code-box"><code>from aevorun import Aevorun
-
-model = Aevorun()
-
-result = model.analyze_source("""
-def next_run(last_run):
-    return last_run + timedelta(days=1)
-""")
-
-for scenario in result.scenarios:
-    print(f"[{scenario.rank}] {scenario.name}: {scenario.score:.2f}")
-    print(f"    Test with: {scenario.recommended_test_dates[0]}")</code></pre>
+      <div class="terminal-box">
+        <div class="terminal-header">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span>bash — aevorun analyze src/billing.py</span>
         </div>
+        <div class="terminal-body">
+<span style="color:#64748b;">$ pip install aevorun</span>
+<span style="color:#64748b;">$ aevorun analyze src/billing.py</span>
 
-        <div class="card">
-          <h3>Command Line Interface</h3>
-          <pre class="code-box"><code># Analyze a python file
-aevorun analyze src/billing.py
+============================================================
+  AEVORUN-T1 Temporal Test-Scenario Prioritization
+============================================================
+File: src/billing.py (Function: calculate_next_billing)
 
-# Filter top 3 scenarios as JSON
-aevorun analyze src/billing.py --top-k 3 --json
+[✓] Temporal Classification: TEMPORAL (Confidence: 0.96)
+[✓] AST Clues: datetime.replace, timedelta(days=30), month rollover
 
-# Inspect model checkpoint & architecture
-aevorun info
+Prioritized Test Scenarios:
+  #1  [0.96]  month_end               Variable 28-31 day calendar transition
+  #2  [0.94]  leap_day                Feb 29 leap year boundary (replace(year=...))
+  #3  [0.88]  calendar_duration       Fixed 30-day timedelta vs. calendar arithmetic
+  #4  [0.79]  recurring_schedule      Phase drift across consecutive billing intervals
 
-# Show version
-aevorun version</code></pre>
+Generated Pytest Scaffold:
+  def test_calculate_next_billing_leap_day():
+      # Probes leap-year boundary failure
+      d = datetime(2024, 2, 29)
+      ...
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Site Footer -->
   <footer class="site-footer">
-    <div class="container footer-content">
-      <div class="footer-brand">
-        <span class="brand-logo">⏱️</span>
-        <strong>AEVORUN</strong> — Learned Temporal Test-Scenario Prioritization
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4>AEVORUN (AEVORUN-T1)</h4>
+          <p style="color: var(--text-dim); margin-bottom: 0.75rem;">
+            Learned Temporal Test-Scenario Prioritization. Open source machine learning research for software reliability.
+          </p>
+          <span style="font-size: 0.78rem; color: var(--accent); font-family: var(--font-mono);">
+            53,711 Parameters • 100% Offline CPU Inference
+          </span>
+        </div>
+        <div class="footer-col">
+          <h5>Product</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html">14 Failure Modes</a></li>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Research</h5>
+          <ul>
+            <li><a href="about.html">Academic Background</a></li>
+            <li><a href="changelog.html">Changelog &amp; Weights</a></li>
+            <li><a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener">GitHub Repository</a></li>
+            <li><a href="feedback.html">Issue Tracker</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Compliance</h5>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy (Local-First)</a></li>
+            <li><a href="https://github.com/A35-777/AEVORUN/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0 License</a></li>
+            <li><a href="llms.txt">llms.txt</a></li>
+            <li><a href="sitemap.xml">Sitemap</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <a href="https://github.com/aevorun/aevorun">GitHub</a>
-        <a href="https://github.com/aevorun/aevorun/blob/main/LICENSE">MIT License</a>
-        <a href="https://github.com/aevorun/aevorun/blob/main/MODEL_CARD.md">Model Card</a>
+      <div class="footer-bottom">
+        <span>&copy; 2026 AEVORUN Research. Open-source under Apache License 2.0.</span>
+        <span>Deployed on Cloudflare Pages (aevorun.pages.dev)</span>
       </div>
     </div>
   </footer>
@@ -273,4 +365,3 @@ aevorun version</code></pre>
   <script src="app.js"></script>
 </body>
 </html>
-

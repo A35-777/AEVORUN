@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback &amp; Community — AEVORUN</title>
+  <meta name="description" content="Report bugs, suggest temporal failure modes, and contribute to AEVORUN.">
+  <link rel="canonical" href="https://aevorun.pages.dev/feedback.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="favicon.svg" alt="AEVORUN Logo">
+        <span>AEVORUN</span>
+        <span class="brand-badge">Feedback</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="docs.html">Docs</a>
+        <a href="about.html">About</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn-github">GitHub ↗</a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <div class="section-tag">Community &amp; Support</div>
+        <h1 class="page-title">Submit Feedback &amp; Bug Reports</h1>
+        <p class="page-subtitle">
+          Have you encountered an unusual temporal bug that AEVORUN-T1 missed? We welcome contributions and empirical bug reports.
+        </p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container" style="max-width: 800px;">
+        <div class="grid grid-2" style="margin-bottom: 2.5rem;">
+          <div class="card">
+            <h3>Report an Issue</h3>
+            <p>Encountered a bug or an unexpected test prioritization recommendation? File an issue on our GitHub repository with code evidence.</p>
+            <div style="margin-top: 1rem;">
+              <a href="https://github.com/A35-777/AEVORUN/issues/new?template=bug_report.md" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Open Bug Report &rarr;</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Request a Failure Mode</h3>
+            <p>Know of a temporal boundary failure pattern in Python that should be added to our label schema taxonomy?</p>
+            <div style="margin-top: 1rem;">
+              <a href="https://github.com/A35-777/AEVORUN/issues/new?template=feature_request.md" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Suggest Scenario &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Contributing to AEVORUN</h3>
+          <p style="margin-bottom: 1rem;">
+            AEVORUN is an open research project. We welcome pull requests adding:
+          </p>
+          <ul style="color: var(--text-muted); margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.92rem;">
+            <li>New real-world temporal bug datasets with commit citations</li>
+            <li>AST feature extractor optimizations</li>
+            <li>Model architecture improvements and calibration techniques</li>
+            <li>Integrations for IDEs (VS Code extensions) and test runners (pytest plugins)</li>
+          </ul>
+          <div style="margin-top: 1.5rem;">
+            <a href="https://github.com/A35-777/AEVORUN/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener" class="btn btn-secondary">Read Contributing Guidelines &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; 2026 AEVORUN Research. Open-source under Apache License 2.0.</span>
+        <span><a href="https://aevorun.pages.dev" style="color: var(--accent);">aevorun.pages.dev</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

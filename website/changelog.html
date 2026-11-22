@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog &amp; Releases — AEVORUN</title>
+  <meta name="description" content="Release notes, model version history, and checkpoint integrity checksums for AEVORUN.">
+  <link rel="canonical" href="https://aevorun.pages.dev/changelog.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="favicon.svg" alt="AEVORUN Logo">
+        <span>AEVORUN</span>
+        <span class="brand-badge">Changelog</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="docs.html">Docs</a>
+        <a href="about.html">About</a>
+        <a href="changelog.html" class="active">Changelog</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn-github">GitHub ↗</a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <div class="section-tag">Release History</div>
+        <h1 class="page-title">Changelog &amp; Model Checkpoints</h1>
+        <p class="page-subtitle">
+          Track official releases, architecture improvements, and cryptographic checksums for verified model weights.
+        </p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+
+        <!-- Release v1.0.0 -->
+        <div class="card" style="margin-bottom: 2.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <span class="brand-badge">v1.0.0</span>
+              <h2 style="display: inline-block; margin-left: 0.5rem; font-size: 1.4rem;">Initial Public Release (AEVORUN-T1)</h2>
+            </div>
+            <span style="font-size: 0.85rem; color: var(--text-dim);">November 2026</span>
+          </div>
+
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">
+            The initial release of AEVORUN introduces the complete end-to-end framework for learned temporal test-scenario prioritization.
+          </p>
+
+          <h4 style="margin: 1rem 0 0.5rem; color: var(--text);">Key Features &amp; Deliverables:</h4>
+          <ul style="color: var(--text-muted); margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.92rem;">
+            <li><strong>AEVORUN-T1 Neural Model:</strong> Deep Residual MLP with 53,711 parameters trained from scratch with focal loss and temperature-scaled calibration.</li>
+            <li><strong>82-Dimensional AST Extractor:</strong> Python AST structural parser extracting call frequencies, keyword arguments, arithmetic operations, and temporal context clues.</li>
+            <li><strong>14-Scenario Taxonomy:</strong> Comprehensive coverage of leap days, month-ends, DST skips/repeats, timezone mismatches, timestamp precision, and expiration boundaries.</li>
+            <li><strong>CLI &amp; SDK:</strong> Full <code>aevorun analyze</code> CLI with human and JSON output modes and high-level <code>Aevorun</code> Python SDK.</li>
+            <li><strong>Empirical Benchmark Suite:</strong> Evaluated on 5 unseen open-source repositories achieving 0.8760 Macro-F1 and 93.7% Recall@3 with 0.0% non-temporal false positive rate.</li>
+          </ul>
+
+          <h4 style="margin: 1.5rem 0 0.5rem; color: var(--text);">Verified Model Checkpoint:</h4>
+          <pre class="code-block"><code>File: model/checkpoints/aevorun_t1.pt
+Format: PyTorch State Dict (CPU-compatible)
+Parameter Count: 53,711
+SHA256: de78614ae7285ad0cf11eba01b91f5983bf8bdd9d04e39054dcbea6e02b40642</code></pre>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; 2026 AEVORUN Research. Open-source under Apache License 2.0.</span>
+        <span><a href="https://aevorun.pages.dev" style="color: var(--accent);">aevorun.pages.dev</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

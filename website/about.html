@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About &amp; Research — AEVORUN</title>
+  <meta name="description" content="Academic and empirical motivation behind AEVORUN learned temporal test-scenario prioritization.">
+  <link rel="canonical" href="https://aevorun.pages.dev/about.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="favicon.svg" alt="AEVORUN Logo">
+        <span>AEVORUN</span>
+        <span class="brand-badge">About</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="docs.html">Docs</a>
+        <a href="about.html" class="active">About</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn-github">GitHub ↗</a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <div class="section-tag">Research Background</div>
+        <h1 class="page-title">Why Learned Temporal Prioritization?</h1>
+        <p class="page-subtitle">
+          Date and time logic is notoriously deceptive. Here is the academic context, empirical motivation, and technical design philosophy behind AEVORUN.
+        </p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid grid-2" style="margin-bottom: 3.5rem;">
+          <div class="card">
+            <h3>The Academic Motivation</h3>
+            <p>
+              In a landmark empirical investigation of 1,000+ Python date/time bugs presented at ACM SIGSOFT / IEEE MSR 2025 (Tiwari et al., <em>"Time Will Tell: An Empirical Study of Date and Time Bugs in Python"</em>), researchers observed that temporal defects frequently slip past existing test suites because unit tests pass during standard development dates and fail abruptly on temporal boundaries.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Why Existing Tools Fail</h3>
+            <p>
+              Static linters (like <code>flake8-datetimez</code>) enforce naive checks (e.g. banning naive datetime objects) but cannot reason about calendar arithmetic or leap day mutations. LLM test generators hallucinate unnecessary tests, require network calls, and are too slow and expensive for pre-commit hooks.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 3.5rem;">
+          <h2 style="margin-bottom: 1rem;">Core Design Principles</h2>
+          <div class="grid grid-3">
+            <div class="card">
+              <h4>1. Zero Pretrained Weights</h4>
+              <p>AEVORUN-T1 is trained completely from scratch without using OpenAI, Anthropic, or Hugging Face pretrained models. All 53,711 parameters originate from our supervised training pipeline.</p>
+            </div>
+            <div class="card">
+              <h4>2. 100% Offline CPU Execution</h4>
+              <p>Inference takes 0.07 milliseconds per function on standard consumer CPUs. No GPU, no internet connection, and no API keys are required.</p>
+            </div>
+            <div class="card">
+              <h4>3. Negative-Class Calibration</h4>
+              <p>A crucial flaw in test recommenders is recommending tests for everything. AEVORUN-T1 was trained with hard negative examples to ensure zero false positives on non-temporal code.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 3.5rem;">
+          <h2 style="margin-bottom: 1rem;">BibTeX Citation</h2>
+          <pre class="code-block"><code>@software{aevorun2026,
+  author = {Goel, Arin and AEVORUN Contributors},
+  title = {AEVORUN: Learned Temporal Test-Scenario Prioritization},
+  year = {2026},
+  url = {https://github.com/A35-777/AEVORUN},
+  version = {1.0.0}
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; 2026 AEVORUN Research. Open-source under Apache License 2.0.</span>
+        <span><a href="https://aevorun.pages.dev" style="color: var(--accent);">aevorun.pages.dev</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

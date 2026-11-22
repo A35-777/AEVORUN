@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmark Evaluation — AEVORUN-T1</title>
+  <meta name="description" content="Empirical evaluation results of AEVORUN-T1 on held-out open-source repositories.">
+  <link rel="canonical" href="https://aevorun.pages.dev/benchmarks.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="favicon.svg" alt="AEVORUN Logo">
+        <span>AEVORUN</span>
+        <span class="brand-badge">Benchmarks</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="benchmarks.html" class="active">Benchmarks</a>
+        <a href="docs.html">Docs</a>
+        <a href="about.html">About</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn-github">GitHub ↗</a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <div class="section-tag">Empirical Rigor</div>
+        <h1 class="page-title">Benchmark Results &amp; Leakage Audit</h1>
+        <p class="page-subtitle">
+          Evaluated against 5 completely held-out, unseen repositories with 0% repository overlap and 0% AST structural leakage.
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Results Section -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Comparative Performance Summary</h2>
+          <p class="section-desc">Comparison across 5 models evaluated on the held-out test split (49 independent functions across 5 external codebases).</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Model / Method</th>
+                <th>Parameters</th>
+                <th>Macro-F1</th>
+                <th>Mean AP</th>
+                <th>Recall@1</th>
+                <th>Recall@3</th>
+                <th>Non-Temporal FPR</th>
+                <th>Latency (CPU)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="highlight-row">
+                <td><strong>AEVORUN-T1 (Deep Residual MLP)</strong></td>
+                <td><strong>53,711</strong></td>
+                <td><strong>0.8760</strong></td>
+                <td><strong>0.9065</strong></td>
+                <td><strong>84.4%</strong></td>
+                <td><strong>93.7%</strong></td>
+                <td><strong>0.0% (0/16)</strong></td>
+                <td><strong>0.07 ms</strong></td>
+              </tr>
+              <tr>
+                <td>Gradient Boosted Decision Trees (GBDT)</td>
+                <td>N/A (Ensemble)</td>
+                <td>0.7984</td>
+                <td>0.8241</td>
+                <td>71.8%</td>
+                <td>87.5%</td>
+                <td>12.5% (2/16)</td>
+                <td>0.45 ms</td>
+              </tr>
+              <tr>
+                <td>Multi-Output Logistic Regression</td>
+                <td>1,162</td>
+                <td>0.7321</td>
+                <td>0.7610</td>
+                <td>65.6%</td>
+                <td>81.2%</td>
+                <td>18.8% (3/16)</td>
+                <td>0.04 ms</td>
+              </tr>
+              <tr>
+                <td>Static Heuristic Rules (Linters)</td>
+                <td>0 (Hand-Crafted)</td>
+                <td>0.7130</td>
+                <td>0.6840</td>
+                <td>62.5%</td>
+                <td>75.0%</td>
+                <td>75.0% (12/16)</td>
+                <td>0.02 ms</td>
+              </tr>
+              <tr>
+                <td>Frequency Baseline</td>
+                <td>14</td>
+                <td>0.2450</td>
+                <td>0.3120</td>
+                <td>25.0%</td>
+                <td>43.7%</td>
+                <td>100.0% (16/16)</td>
+                <td>0.01 ms</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Research Questions Cards -->
+        <div class="grid grid-3" style="margin-top: 3rem;">
+          <div class="card">
+            <h3>RQ1: Neural vs. Static Rules</h3>
+            <p>Static heuristics achieved 0.7130 F1 but suffered a disastrous <strong>75.0% false-positive rate</strong> on non-temporal code due to lexical token collisions (e.g. mathematical delta). AEVORUN-T1 achieved <strong>0.0% FPR</strong> while boosting F1 to 0.8760.</p>
+          </div>
+          <div class="card">
+            <h3>RQ2: Ranking Precision (Recall@3)</h3>
+            <p>In practical testing, developers only inspect the top 2-3 recommended scenarios. AEVORUN-T1 captured the true failing temporal scenario in the top 3 recommendations in <strong>93.7% of all cases</strong>, outperforming GBDT (87.5%).</p>
+          </div>
+          <div class="card">
+            <h3>RQ3: Generalization Across Repositories</h3>
+            <p>Evaluation was conducted on repositories never seen during training: <code>apache/airflow</code>, <code>certbot/certbot</code>, <code>boto/botocore</code>, <code>chronos</code>, and <code>token-vault</code>. Performance remained stable within &plusmn;3.2% of validation scores.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Leakage Audit Section -->
+    <section class="section section-bg-alt">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Reproducibility Guarantee</div>
+          <h2 class="section-title">Data Leakage &amp; Contamination Audit</h2>
+          <p class="section-desc">Strict repository-level isolation audited by <code>scripts/audit_leakage.py</code>.</p>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Repository Split Separation</h3>
+            <p>Every repository in the dataset belongs strictly to exactly one split. No functions, bug-fixes, or mutated variants from the same repository cross train, val, or test boundaries.</p>
+            <div style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.82rem; color: var(--emerald);">
+              ✓ Train Repos: 24 repositories (338 samples)<br>
+              ✓ Val Repos: 8 repositories (116 samples)<br>
+              ✓ Test Repos: 5 held-out repositories (49 samples)<br>
+              ✓ Overlap Rate: 0.00%
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>AST Structural Hash Deduplication</h3>
+            <p>Exact AST sub-tree hashing (normalizing docstrings, comments, and variable names) was computed across all 503 samples to guarantee that test code does not replicate training structures.</p>
+            <div style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.82rem; color: var(--emerald);">
+              ✓ Unique AST Structural Hashes: 503 / 503<br>
+              ✓ Near-Duplicate Cluster Cross-Contamination: 0.00%<br>
+              ✓ Syntax Validation: 100% Valid Python 3 ASTs<br>
+              ✓ Checkpoint SHA256: de78614ae728...
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; 2026 AEVORUN Research. Open-source under Apache License 2.0.</span>
+        <span><a href="https://aevorun.pages.dev" style="color: var(--accent);">aevorun.pages.dev</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

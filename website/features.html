@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temporal Failure Modes — AEVORUN Taxonomy</title>
+  <meta name="description" content="Detailed analysis of the 14 temporal failure modes predicted by AEVORUN-T1.">
+  <link rel="canonical" href="https://aevorun.pages.dev/features.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="favicon.svg" alt="AEVORUN Logo">
+        <span>AEVORUN</span>
+        <span class="brand-badge">Features</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="features.html" class="active">Features</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="docs.html">Docs</a>
+        <a href="about.html">About</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="https://github.com/A35-777/AEVORUN" target="_blank" rel="noopener" class="btn-github">GitHub ↗</a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <div class="section-tag">Scenario Taxonomy</div>
+        <h1 class="page-title">14 Canonical Temporal Failure Modes</h1>
+        <p class="page-subtitle">
+          AEVORUN-T1 maps Python source code ASTs to a calibrated multi-label ranking across these 14 edge-case categories.
+        </p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid grid-2">
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 01</span>
+            <h3>leap_day (February 29)</h3>
+            <p><strong>Failure Mode:</strong> Invoking <code>d.replace(year=d.year + 1)</code> or incrementing contract periods raises <code>ValueError: day is out of range for month</code> when evaluated on a leap day.</p>
+            <pre class="code-block"><code># Buggy pattern:
+next_anniversary = birth_date.replace(year=today.year)
+# Test strategy: Pass date(2024, 2, 29) and assert fallback to Feb 28.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 02</span>
+            <h3>month_end (28th - 31st Rollover)</h3>
+            <p><strong>Failure Mode:</strong> Months have variable lengths. Adding a fixed 30-day timedelta causes end-of-month invoice schedules to drift backward in March and skip August/October 31st.</p>
+            <pre class="code-block"><code># Buggy pattern:
+next_invoice = invoice_date + timedelta(days=30)
+# Test strategy: Test starting on Jan 31, assert next is Feb 28/29.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 03</span>
+            <h3>daylight_saving_transition (Spring / Fall Jumps)</h3>
+            <p><strong>Failure Mode:</strong> Clocks skip forward 1 hour in spring (creating non-existent times) and fall back 1 hour in autumn (creating repeated times). Naive arithmetic corrupts scheduled jobs.</p>
+            <pre class="code-block"><code># Buggy pattern:
+scheduled_run = last_run + timedelta(hours=24)
+# Test strategy: Run across DST boundary in America/New_York (23h or 25h day).</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 04</span>
+            <h3>ambiguous_local_time (Fold 0 vs. 1)</h3>
+            <p><strong>Failure Mode:</strong> During autumn fall-back transitions, times between 01:00 and 02:00 AM occur twice. Code failing to specify <code>fold=0</code> or <code>fold=1</code> produces undefined sorting order.</p>
+            <pre class="code-block"><code># Buggy pattern:
+is_first_occurrence = (local_dt.fold == 0) # Ignored in naive sorting
+# Test strategy: Compare datetime(2024, 11, 3, 1, 30, fold=0) vs fold=1.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 05</span>
+            <h3>nonexistent_local_time (Civil Clock Gap)</h3>
+            <p><strong>Failure Mode:</strong> In spring forward, times between 02:00 and 03:00 AM do not exist. Instantiating a naive datetime and converting with <code>ZoneInfo</code> leads to surprising offset choices.</p>
+            <pre class="code-block"><code># Buggy pattern:
+meeting = datetime(2024, 3, 10, 2, 30, tzinfo=ZoneInfo("America/New_York"))
+# Test strategy: Probe existence of civil time; expect normalized 03:30 AM.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 06</span>
+            <h3>naive_aware_mismatch (TypeError)</h3>
+            <p><strong>Failure Mode:</strong> Comparing or subtracting a naive datetime with a timezone-aware datetime raises <code>TypeError: can't compare offset-naive and offset-aware datetimes</code>.</p>
+            <pre class="code-block"><code># Buggy pattern:
+if user_input_time &lt; datetime.now(timezone.utc): # TypeError if naive!
+# Test strategy: Pass naive input; assert explicit timezone coercion.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 07</span>
+            <h3>timestamp_precision (Sub-Second Truncation)</h3>
+            <p><strong>Failure Mode:</strong> Floating point Unix timestamps lose precision at microsecond/nanosecond scales. Comparing timestamps with <code>==</code> after JSON serialization fails.</p>
+            <pre class="code-block"><code># Buggy pattern:
+assert round(ts1, 3) == round(ts2, 3)
+# Test strategy: Test microsecond boundary values: .999999 vs .000001.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 08</span>
+            <h3>calendar_duration_mismatch (Duration != Calendar)</h3>
+            <p><strong>Failure Mode:</strong> Treating calendar units as uniform physical durations. 1 month is not 30 days, 1 year is not 365 days, and 1 day is not always 86,400 seconds.</p>
+            <pre class="code-block"><code># Buggy pattern:
+duration_seconds = months * 30 * 86400
+# Test strategy: Compare elapsed wall-clock calendar interval vs epoch delta.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 09</span>
+            <h3>year_boundary (Dec 31 to Jan 1)</h3>
+            <p><strong>Failure Mode:</strong> ISO week year formatting (<code>%G-%V</code>) differs from calendar year (<code>%Y</code>) around Dec 29 - Jan 3, causing log files or metrics buckets to overwrite previous years.</p>
+            <pre class="code-block"><code># Buggy pattern:
+partition_key = dt.strftime("%Y-week-%W")
+# Test strategy: Test on Dec 31, 2024 and Jan 1, 2025.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 10</span>
+            <h3>midnight_boundary (23:59:59 to 00:00:00)</h3>
+            <p><strong>Failure Mode:</strong> Off-by-one errors on day boundaries, inclusive vs. exclusive ranges, and date queries using <code>&lt;= 23:59:59</code> that miss records in the last second.</p>
+            <pre class="code-block"><code># Buggy pattern:
+query = select().where(created_at &lt;= end_date.replace(hour=23, minute=59))
+# Test strategy: Probe boundary at 23:59:59.999999.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 11</span>
+            <h3>timezone_conversion (Offset Errors)</h3>
+            <p><strong>Failure Mode:</strong> Applying fixed UTC offset arithmetic (e.g. <code>+ timedelta(hours=5)</code>) instead of IANA tzdb rules, ignoring historical offset adjustments and policy changes.</p>
+            <pre class="code-block"><code># Buggy pattern:
+ist_time = utc_time + timedelta(hours=5, minutes=30)
+# Test strategy: Convert using ZoneInfo("Asia/Kolkata") across historical dates.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 12</span>
+            <h3>date_parsing (Ambiguous Locales)</h3>
+            <p><strong>Failure Mode:</strong> Inconsistent DD/MM/YYYY vs. MM/DD/YYYY parsing without explicit format specifications causes silent transpositions for dates like 03/04/2024.</p>
+            <pre class="code-block"><code># Buggy pattern:
+dt = datetime.strptime(raw_str, "%m/%d/%Y") # Fails on EU dates
+# Test strategy: Test day &lt;= 12 where month and day are interchangeable.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 13</span>
+            <h3>recurring_schedule (Phase Accumulation)</h3>
+            <p><strong>Failure Mode:</strong> Re-computing scheduled run times by adding duration to previous execution time causes cumulative execution delay (phase drift) under load.</p>
+            <pre class="code-block"><code># Buggy pattern:
+next_tick = last_tick_finished_at + interval
+# Test strategy: Simulate execution jitter and verify alignment with epoch ticks.</code></pre>
+          </div>
+
+          <div class="card">
+            <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">Scenario 14</span>
+            <h3>expiration_boundary (TTL &amp; Sessions)</h3>
+            <p><strong>Failure Mode:</strong> Clock skew between distributed servers causing JWTs or cache keys to expire prematurely or remain valid after expiration.</p>
+            <pre class="code-block"><code># Buggy pattern:
+is_expired = now &gt; expires_at # No clock skew grace window
+# Test strategy: Probe delta = 0 and delta = -1 with simulated clock skew.</code></pre>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; 2026 AEVORUN Research. Open-source under Apache License 2.0.</span>
+        <span><a href="https://aevorun.pages.dev" style="color: var(--accent);">aevorun.pages.dev</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

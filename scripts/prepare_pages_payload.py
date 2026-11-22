@@ -39,3 +39,4 @@ output_payload = {
 Path("d:/AEVORUN/website/pages_payload.json").write_text(json.dumps(output_payload, indent=2), encoding="utf-8")
 print(f"Generated pages_payload.json with {len(upload_items)} assets.")
 print("Manifest:", manifest)
+
