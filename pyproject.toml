@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
-    { name = "AEVORUN Research Team" }
+    { name = "Arin Goel" }
 ]
 keywords = ["testing", "machine-learning", "ast", "datetime", "edge-cases", "pytest"]
 classifiers = [

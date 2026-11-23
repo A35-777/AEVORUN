@@ -9,7 +9,7 @@ setup(
     description="Learned Temporal Test-Scenario Prioritization (Model: AEVORUN-T1)",
     long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    author="AEVORUN Research Team",
+    author="Arin Goel",
     url="https://aevorun.pages.dev",
     project_urls={
         "Documentation": "https://aevorun.pages.dev/#docs",
@@ -57,3 +57,4 @@ setup(
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
 )
+
