@@ -31,3 +31,4 @@ Paste the CLI or SDK output here.
  - Python Version: [e.g. 3.11.8]
  - AEVORUN Version: [e.g. 1.0.0]
  - PyTorch Version: [e.g. 2.2.0]
+

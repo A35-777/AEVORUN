@@ -13,3 +13,4 @@ Find the time-related tests your code is most likely to need.
 2. Predicts calibrated scenario relevance across 14 canonical temporal edge cases.
 3. Ranks tests with 93.7% Recall@3 and 0.8760 Macro-F1 on held-out repositories.
 4. Generates zero false positives (0.0% FPR) on non-temporal mathematical functions.
+

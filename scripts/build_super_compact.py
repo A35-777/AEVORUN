@@ -94,6 +94,14 @@ html = f"""<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>{re.sub(r"\s+", " ", css).strip()}</style>
+  <meta name="google-site-verification" content="SGokPX2GrobpJD7DfOw4PNA5FjAGcAkZ-196p22EQJU" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){{
+        c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    }})(window, document, "clarity", "script", "zingt3vgqv");
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -447,3 +455,4 @@ export default {{
 
 (Path("d:/AEVORUN/website/_worker_compact.js")).write_text(worker, encoding="utf-8")
 print("Compact worker generated, size:", len(worker), "characters.")
+

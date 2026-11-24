@@ -13,3 +13,4 @@ AEVORUN contains zero analytics, tracking scripts, crash report phone-homes, or 
 
 ### 4. Deterministic Local Execution
 The model executes deterministically given identical code inputs, ensuring reproducible CI/CD pipeline runs without remote dependency risks.
+
